@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Pipes from './Pipes'
-import { startGame, setBirdPosition, resetGame } from './features/app-slice'
+import { startGame, setBirdPosition, setGameResult } from './features/app-slice'
 import { store, constants } from './store'
 import { useSelector } from 'react-redux'
 import Bird from './Bird'
@@ -11,21 +11,29 @@ export default function GameBox() {
   const [jumpAudio, setAudio] = useState(null)
   useEffect(() => {
     setAudio(new Audio('/sound-effects/jump.wav'))
+    // only run once on the first render on the client
   }, [])
-
   const birdPosition = useSelector((state) => state.birdPosition)
   const score = useSelector((state) => state.score)
   const gameStarted = useSelector(state => state.gameStarted)
   const isGameOver = useSelector(state => state.isGameOver)
+  const betScore = useSelector(state => state.betScore)
+
 
   function jump() {
     const JUMP = constants.JUMP
     if (isGameOver) {
-      store.dispatch(resetGame())
+
+      if (betScore >= score) {
+        store.dispatch(setGameResult(true))
+      } else {
+        store.dispatch(setGameResult(false))
+      }
+
+
       return
     }
     else if (!gameStarted) {
-      // store.dispatch(resetGame())
       store.dispatch(startGame())
       return
     }
@@ -37,7 +45,6 @@ export default function GameBox() {
     jumpAudio.currentTime = 0;
     jumpAudio.play()
   }
-  
   return (
     <Box onClick={jump}>
       {isGameOver ? <GameOver /> : null}
@@ -55,7 +62,7 @@ user-select: none; /* supported by Chrome and Opera */
 -webkit-user-select: none; /* Safari */
 -khtml-user-select: none; /* Konqueror HTML */
 -moz-user-select: none; /* Firefox */
--ms-user-select: none;
+-ms-user-select: none; 
 background: no-repeat center/100% url('/img/background-day.png');
 overflow: hidden;
 position: relative;

@@ -4,19 +4,31 @@ const initialState = {
   isWalletConnected: false,
   walletAddress: "",
   stakeAmount: 0,
+  betScore: 0,
   isStakeDone: false,
   gamePin: 0,
   score: 0,
   gameStarted: false,
   isGameOver: false,
   birdPosition: 300,
-  pipePosition: 500
+  pipePosition: 500,
+  checkresults: false,
+  hasUserPlayed: 'NOT_PLAYED',
+  hasWinned: false
 }
 
 const Slice = createSlice({
   name: 'slice',
   initialState,
   reducers: {
+    setBetScore: (state, action) => {
+      if (action.payload) {
+        state.betScore = action.payload
+      }
+      else {
+        state.betScore = 0
+      }
+    },
     setStakeAmount: (state, action) => {
       if (action.payload) {
         state.stakeAmount = action.payload
@@ -60,9 +72,10 @@ const Slice = createSlice({
     gameOver: state => {
       state.gameStarted = false
       state.isGameOver = true
-      state.gamePin = 0
-      state.isStakeDone = false
-      state.stakeAmount = 0
+      console.log()
+      // state.gamePin = 0
+      // state.isStakeDone = false
+      // state.stakeAmount = 0
 
     },
     setBirdPosition: (state, action) => {
@@ -74,9 +87,14 @@ const Slice = createSlice({
       state.pipePosition = action.payload
       // console.log(state.birdPosition);
     },
-    resetGame: state => state = initialState
+    setGameResult:(state, action) => {
+      state.hasWinned = action.payload
+      state.hasUserPlayed = 'PLAYED'
+    }
+
+    // resetGame: state => state = initialState
   }
 })
 
-export const { addScore, startGame, setBirdPosition, gameOver, resetGame, setPipePosition, setGamePin, setStakeStatus, setWalletState, setStakeAmount } = Slice.actions
+export const { addScore, startGame, setBirdPosition, gameOver, resetGame, setPipePosition, setGamePin, setStakeStatus, setWalletState, setStakeAmount, setBetScore, setGameResult } = Slice.actions
 export default Slice.reducer;
