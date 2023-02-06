@@ -11,8 +11,8 @@ export default function GameBox() {
   const [jumpAudio, setAudio] = useState(null)
   useEffect(() => {
     setAudio(new Audio('/sound-effects/jump.wav'))
-    // only run once on the first render on the client
   }, [])
+
   const birdPosition = useSelector((state) => state.birdPosition)
   const score = useSelector((state) => state.score)
   const gameStarted = useSelector(state => state.gameStarted)
@@ -37,6 +37,7 @@ export default function GameBox() {
     jumpAudio.currentTime = 0;
     jumpAudio.play()
   }
+  
   return (
     <Box onClick={jump}>
       {isGameOver ? <GameOver /> : null}
@@ -54,7 +55,7 @@ user-select: none; /* supported by Chrome and Opera */
 -webkit-user-select: none; /* Safari */
 -khtml-user-select: none; /* Konqueror HTML */
 -moz-user-select: none; /* Firefox */
--ms-user-select: none; 
+-ms-user-select: none;
 background: no-repeat center/100% url('/img/background-day.png');
 overflow: hidden;
 position: relative;
