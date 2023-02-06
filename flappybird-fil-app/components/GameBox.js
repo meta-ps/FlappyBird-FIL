@@ -24,13 +24,11 @@ export default function GameBox() {
     const JUMP = constants.JUMP
     if (isGameOver) {
 
-      if (betScore >= score) {
+      if (betScore < score) {
         store.dispatch(setGameResult(true))
       } else {
         store.dispatch(setGameResult(false))
       }
-
-
       return
     }
     else if (!gameStarted) {

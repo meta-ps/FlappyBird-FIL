@@ -6,8 +6,6 @@ import { store } from '../store'
 import GameBox from '../GameBox'
 import { ABI, contractAddress } from '../../constants/ABI'
 import Web3Modal from "web3modal";
-import Game from '../Game'
-
 
 
 export default function MainPage() {
@@ -16,6 +14,8 @@ export default function MainPage() {
     const isStakeDone = useSelector((state) => state.isStakeDone)
     const hasUserPlayed = useSelector((state) => state.hasUserPlayed)
     const hasWinned = useSelector((state) => state.hasWinned)
+    const gameId = useSelector((state) => state.gamePin)
+
 
     console.log(`Is stake done RR ${isStakeDone}`)
 
@@ -45,6 +45,7 @@ export default function MainPage() {
 
 
     function handeStakeAmount(e) {
+    
         store.dispatch(setStakeAmount(Number(e.target.value)))
     }
 
@@ -53,6 +54,29 @@ export default function MainPage() {
 
     }
 
+    async function handleClaimStake() {
+        try {
+            const web3Modal = new Web3Modal();
+            const connection = await web3Modal.connect();
+            const provider = new ethers.providers.Web3Provider(connection);
+            const signer = provider.getSigner();
+            const contract = new ethers.Contract(
+                contractAddress,
+                ABI,
+                signer
+            );
+    
+    
+    
+            let txn = await contract.checkStatus(2, 3);
+            txn = await txn.wait();
+            console.log(txn)
+            alert('TXN successfully completed please check your wallet')
+    
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     async function handleStake() {
 
@@ -92,7 +116,7 @@ export default function MainPage() {
     }
 
 
-
+    
 
 
     function handleIsPlayed() {
@@ -101,13 +125,12 @@ export default function MainPage() {
 
 
     return (
-        <div style={{ color: "white" }}>
-
+        < >
             {!isWalletActive && <button onClick={connectWallet}>Connect to FIL</button>}
 
             {
                 isWalletActive && !isStakeDone &&
-                <>
+                <div>
                     Stake Amount must be more than 0.01
                     <input type="number" onChange={handeStakeAmount} />
                     <br />
@@ -116,7 +139,7 @@ export default function MainPage() {
                     <br />
                     <button onClick={handleStake}>Stake</button>
 
-                </>
+                </div>
             }
 
             {
@@ -126,18 +149,20 @@ export default function MainPage() {
                 </div>
             }
             {
-                isWalletActive && hasUserPlayed === 'PLAYED' && hasWinned &&
+                isWalletActive && hasUserPlayed === 'PLAYED' && hasWinned === true &&
                 <div>
-                    Winned Claim the stake
+                    Winned Claim the stake {(stakeAmount * 5) / 100}
+                    <button onClick={handleClaimStake}>Claim</button>
                 </div>
 
             }
+
             {
-                isWalletActive && hasUserPlayed === 'PLAYED' && hasWinned == false &&
+                isWalletActive && hasUserPlayed === 'PLAYED' && hasWinned === false &&
                 <div>
                     you loose the game please try again
                 </div>
             }
-        </div>
+        </>
     )
 }
