@@ -72,7 +72,7 @@ export default function MainPage() {
 
 
 
-            let txn = await contract.checkStatus(gameId, 6);
+            let txn = await contract.checkStatus(gameId, 10);
             txn = await txn.wait();
             console.log(txn)
             alert('TXN successfully completed please check your wallet')
@@ -272,7 +272,7 @@ export default function MainPage() {
                                     <div className="w-4/6">
                                         <h3 className="tracking-tight font-light text-gray-500 text-4xl ">You Won !!!</h3>
                                         <h1 className="text-6xl md:text-8xl tracking-tight leading-none font-extrabold text-cyan-500">tFIL</h1>
-                                        <p className="text-lg text-gray-500 mt-2">Claim with 5% on your Stake !<br/>Winned Claim the stake {(5 * 5) / 100}
+                                        <p className="text-lg text-gray-500 mt-2">Claim with 5% on your Stake !<br />Winned Claim the stake { stakeAmount / 100}
                                         </p>
                                         <button className="inline-block bg-cyan-500 hover:bg-pink-600 mt-3 px-6 py-3 rounded-md text-white" onClick={handleClaimStake}>Claim </button>
                                     </div>
