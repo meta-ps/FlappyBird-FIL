@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { utils } from 'ethers'
-import { setWalletProvider, setWalletState } from '../features/app-slice'
+import { setWalletState, setStakeAmount } from '../features/app-slice'
 import { store } from '../store'
 import GameBox from '../GameBox'
 
@@ -33,6 +33,9 @@ export default function MainPage() {
     }
 
 
+    function handeStakeAmount(e) {
+        store.dispatch(setStakeAmount(Number(e.target.value)))
+    }
 
 
     return (
@@ -40,9 +43,18 @@ export default function MainPage() {
 
             {!isWalletActive && <button onClick={connectWallet}>Connect to FIL</button>}
 
-            {isWalletActive}
+            {
+                isWalletActive &&
+                <>
+
+                    <input type="number" onChange={handeStakeAmount} />
+                    <button></button>
+
+                    
+                </>
+            }
 
         </div>
     )
 }
-{/* <GameBox /> */}
+{/* <GameBox /> */ }

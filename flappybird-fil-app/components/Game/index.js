@@ -11,12 +11,12 @@ export default function Game() {
     const isWalletActive = useSelector((state) => state.isWalletConnected)
 
 
-
+    
 
 
     return (
         <div>
-            
+
 
         </div>
     )
