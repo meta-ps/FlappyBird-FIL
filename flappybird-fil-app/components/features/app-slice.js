@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   isWalletConnected: false,
   walletAddress: "",
-  walletProvider: {},
   isStakeDone: false,
   gamePin: 0,
   score: 0,
@@ -17,14 +16,6 @@ const Slice = createSlice({
   name: 'slice',
   initialState,
   reducers: {
-    setWalletProvider: (state, action) => {
-      if (action.payload) {
-        state.walletProvider = action.payload
-      }
-      else {
-        state.walletProvider = {}
-      }
-    },
     setStakeStatus: (state, action) => {
       if (action.payload) {
         state.isStakeDone = true
@@ -77,5 +68,5 @@ const Slice = createSlice({
   }
 })
 
-export const { addScore, startGame, setBirdPosition, gameOver, resetGame, setPipePosition } = Slice.actions
+export const { addScore, startGame, setBirdPosition, gameOver, resetGame, setPipePosition, setGamePin, setStakeStatus, setWalletState } = Slice.actions
 export default Slice.reducer;
