@@ -1,3 +1,4 @@
+import { Chat } from "@pushprotocol/uiweb";
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
@@ -174,6 +175,14 @@ export default function MainPage() {
                 isWalletActive && !isStakeDone &&
                 <div>
 
+                    <Chat
+                        account={walletAddress} //users walletAddress
+                        supportAddress="0x6B4c696B623FA9A2A6D5b6E9101Ef19CD973bc3C" //support address
+                        apiKey="jVPMCRom1B.iDRMswdehJG7NpHDiECIHwYMMv6k2KzkPJscFIDyW8TtSnk4blYnGa8DIkfuacU0"
+                        env="staging"
+                        greetingMsg="Send /intro to start :)"
+                    />
+
 
                     <div>
 
@@ -272,7 +281,7 @@ export default function MainPage() {
                                     <div className="w-4/6">
                                         <h3 className="tracking-tight font-light text-gray-500 text-4xl ">You Won !!!</h3>
                                         <h1 className="text-6xl md:text-8xl tracking-tight leading-none font-extrabold text-cyan-500">tFIL</h1>
-                                        <p className="text-lg text-gray-500 mt-2">Claim with 5% on your Stake !<br />Winned Claim the stake { stakeAmount / 100}
+                                        <p className="text-lg text-gray-500 mt-2">Claim with 5% on your Stake !<br />Winned Claim the stake {stakeAmount / 100}
                                         </p>
                                         <button className="inline-block bg-cyan-500 hover:bg-pink-600 mt-3 px-6 py-3 rounded-md text-white" onClick={handleClaimStake}>Claim </button>
                                     </div>
